@@ -11,10 +11,10 @@ import 'package:piggy_flutter/utils/common.dart';
 
 class CategoryWiseRecentMonthsReportScreen extends StatefulWidget {
   const CategoryWiseRecentMonthsReportScreen(
-      {Key key, @required this.animationController})
+      {Key? key, required this.animationController})
       : super(key: key);
 
-  final AnimationController animationController;
+  final AnimationController? animationController;
 
   static const String routeName =
       '/reports/categorywise-recent-months-report-screen';
@@ -26,7 +26,7 @@ class CategoryWiseRecentMonthsReportScreen extends StatefulWidget {
 
 class _CategoryWiseRecentMonthsReportScreenState
     extends State<CategoryWiseRecentMonthsReportScreen> {
-  CategorywiseRecentMonthsReportBloc _bloc;
+  late CategorywiseRecentMonthsReportBloc _bloc;
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class _CategoryWiseRecentMonthsReportScreenState
                           (CategoryWiseRecentMonthsReportItem item) => DataRow(
                             cells: [
                               DataCell(
-                                Text(item.categoryName),
+                                Text(item.categoryName!),
                                 showEditIcon: false,
                                 placeholder: false,
                               ),

@@ -9,9 +9,9 @@ import './bloc.dart';
 
 class AccountBloc extends Bloc<AccountEvent, AccountState> {
   AccountBloc(
-      {@required this.accountRepository,
-      @required this.transactionsBloc,
-      @required this.transactionDetailBloc})
+      {required this.accountRepository,
+      required this.transactionsBloc,
+      required this.transactionDetailBloc})
       : assert(accountRepository != null),
         assert(transactionsBloc != null),
         assert(transactionDetailBloc != null),
@@ -32,10 +32,10 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   final AccountRepository accountRepository;
 
   final TransactionBloc transactionsBloc;
-  StreamSubscription transactionBlocSubscription;
+  late StreamSubscription transactionBlocSubscription;
 
   final TransactionDetailBloc transactionDetailBloc;
-  StreamSubscription transactionDetailBlocSubscription;
+  late StreamSubscription transactionDetailBlocSubscription;
 
   @override
   Stream<AccountState> mapEventToState(
@@ -46,7 +46,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
       try {
         final Account account =
-            await accountRepository.getAccountDetails(event.accountId);
+            await (accountRepository.getAccountDetails(event.accountId) as FutureOr<Account>);
 
         yield AccountLoaded(account: account);
       } catch (e) {
@@ -55,7 +55,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     }
 
     if (event is RefreshAccount) {
-      add(FetchAccount(accountId: state.accountId));
+      add(FetchAccount(accountId: state.accountId!));
     }
   }
 

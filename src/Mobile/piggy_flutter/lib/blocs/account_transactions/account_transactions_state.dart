@@ -4,7 +4,7 @@ import 'package:piggy_flutter/models/models.dart';
 
 // TODO: need to re-visit filters handling in states
 abstract class AccountTransactionsState extends Equatable {
-  final GetTransactionsInput filters;
+  final GetTransactionsInput? filters;
 
   const AccountTransactionsState(this.filters);
   @override
@@ -12,7 +12,7 @@ abstract class AccountTransactionsState extends Equatable {
 }
 
 class AccountTransactionsEmpty extends AccountTransactionsState {
-  AccountTransactionsEmpty(GetTransactionsInput filters) : super(filters);
+  AccountTransactionsEmpty(GetTransactionsInput? filters) : super(filters);
 }
 
 class AccountTransactionsLoading extends AccountTransactionsState {
@@ -22,17 +22,17 @@ class AccountTransactionsLoading extends AccountTransactionsState {
 class AccountTransactionsLoaded extends AccountTransactionsState {
   final TransactionsResult allAccountTransactions;
   final TransactionsResult filterdAccountTransactions;
-  final GetTransactionsInput filters;
+  final GetTransactionsInput? filters;
 
   AccountTransactionsLoaded(
-      {@required this.allAccountTransactions,
-      @required this.filterdAccountTransactions,
-      @required this.filters})
+      {required this.allAccountTransactions,
+      required this.filterdAccountTransactions,
+      required this.filters})
       : super(filters);
 
   @override
   List<Object> get props =>
-      [allAccountTransactions, filterdAccountTransactions, filters];
+      [allAccountTransactions, filterdAccountTransactions, filters!];
 }
 
 class AccountTransactionsError extends AccountTransactionsState {

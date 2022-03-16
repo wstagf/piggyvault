@@ -31,17 +31,17 @@ import 'account_form.dart';
 
 class AccountDetailPage extends StatefulWidget {
   const AccountDetailPage(
-      {Key key,
-      @required this.account,
-      @required this.transactionRepository,
-      @required this.accountRepository,
-      @required this.animationController})
+      {Key? key,
+      required this.account,
+      required this.transactionRepository,
+      required this.accountRepository,
+      required this.animationController})
       : super(key: key);
 
   final Account account;
   final TransactionRepository transactionRepository;
   final AccountRepository accountRepository;
-  final AnimationController animationController;
+  final AnimationController? animationController;
 
   @override
   _AccountDetailPageState createState() => _AccountDetailPageState();
@@ -49,17 +49,17 @@ class AccountDetailPage extends StatefulWidget {
 
 class _AccountDetailPageState extends State<AccountDetailPage>
     with TickerProviderStateMixin {
-  AnimationController _hideFabAnimation;
-  Animation<double> topBarAnimation;
-  Animation<double> listAnimation;
+  late AnimationController _hideFabAnimation;
+  late Animation<double> topBarAnimation;
+  late Animation<double> listAnimation;
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
 
   List<Widget> listViews = <Widget>[];
-  Completer<void> _refreshCompleter;
+  Completer<void>? _refreshCompleter;
 
-  AccountTransactionsBloc accountTransactionsBloc;
-  AccountBloc accountBloc;
+  AccountTransactionsBloc? accountTransactionsBloc;
+  late AccountBloc accountBloc;
 
   DateTime startDate = DateTime.now().add(const Duration(days: -30));
   DateTime endDate = DateTime.now();
@@ -71,13 +71,13 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     _hideFabAnimation.forward();
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
-        parent: widget.animationController,
+        parent: widget.animationController!,
         curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn),
       ),
     );
 
     listAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-        parent: widget.animationController,
+        parent: widget.animationController!,
         curve: Interval(0.5, 1.0, curve: Curves.fastOutSlowIn)));
 
     scrollController.addListener(() {
@@ -114,8 +114,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         transactionDetailBloc: BlocProvider.of<TransactionDetailBloc>(context),
         transactionsBloc: BlocProvider.of<TransactionBloc>(context));
 
-    accountBloc.add(FetchAccount(accountId: widget.account.id));
-    accountTransactionsBloc.add(
+    accountBloc.add(FetchAccount(accountId: widget.account.id!));
+    accountTransactionsBloc!.add(
       FetchAccountTransactions(
         input: GetTransactionsInput(
             type: 'account',
@@ -192,10 +192,10 @@ class _AccountDetailPageState extends State<AccountDetailPage>
         if (!snapshot.hasData) {
           return const SizedBox();
         } else {
-          widget.animationController.forward();
+          widget.animationController!.forward();
           return AnimatedBuilder(
-            animation: widget.animationController,
-            builder: (BuildContext context, Widget child) {
+            animation: widget.animationController!,
+            builder: (BuildContext context, Widget? child) {
               return FadeTransition(
                 opacity: listAnimation,
                 child: Transform(
@@ -229,7 +229,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                                         children: <Widget>[
                                           SearchBar(
                                             onSearchTextChanged: (txt) {
-                                              accountTransactionsBloc.add(
+                                              accountTransactionsBloc!.add(
                                                   FilterAccountTransactions(
                                                       txt));
                                             },
@@ -254,7 +254,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                                     .backgroundColor,
                                 child: BlocBuilder<AccountTransactionsBloc,
                                     AccountTransactionsState>(
-                                  cubit: accountTransactionsBloc,
+                                  cubit: accountTransactionsBloc!,
                                   builder: (BuildContext context,
                                       AccountTransactionsState state) {
                                     if (state is AccountTransactionsLoaded) {
@@ -270,8 +270,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                                     return RefreshIndicator(
                                       onRefresh: () {
                                         accountBloc.add(FetchAccount(
-                                            accountId: widget.account.id));
-                                        accountTransactionsBloc.add(
+                                            accountId: widget.account.id!));
+                                        accountTransactionsBloc!.add(
                                           FetchAccountTransactions(
                                             input: GetTransactionsInput(
                                                 type: 'account',
@@ -282,7 +282,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                                                     TransactionsGroupBy.Date),
                                           ),
                                         );
-                                        return _refreshCompleter.future;
+                                        return _refreshCompleter!.future;
                                       },
                                       child: SafeArea(
                                         top: false,
@@ -347,8 +347,8 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     return Column(
       children: <Widget>[
         AnimatedBuilder(
-          animation: widget.animationController,
-          builder: (BuildContext context, Widget child) {
+          animation: widget.animationController!,
+          builder: (BuildContext context, Widget? child) {
             return FadeTransition(
               opacity: topBarAnimation,
               child: Transform(
@@ -386,7 +386,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: AutoSizeText(
-                                  widget.account.name,
+                                  widget.account.name!,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: PiggyAppTheme.fontName,
@@ -460,7 +460,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     );
   }
 
-  Widget getTimeDateUI(AccountTransactionsBloc accountTransactionsBloc,
+  Widget getTimeDateUI(AccountTransactionsBloc? accountTransactionsBloc,
       AccountBloc accountBloc) {
     return Padding(
       padding: const EdgeInsets.only(left: 18, bottom: 16),
@@ -644,7 +644,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
                 Expanded(
                   child: BlocBuilder<AccountTransactionsBloc,
                           AccountTransactionsState>(
-                      cubit: accountTransactionsBloc,
+                      cubit: accountTransactionsBloc!,
                       builder: (context, state) {
                         if (state is AccountTransactionsLoaded) {
                           return Padding(
@@ -750,7 +750,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
     );
   }
 
-  void showDemoDialog({BuildContext context, AccountTransactionsBloc bloc}) {
+  void showDemoDialog({required BuildContext context, AccountTransactionsBloc? bloc}) {
     showDialog<dynamic>(
       context: context,
       builder: (BuildContext context) => CalendarPopupView(
@@ -766,7 +766,7 @@ class _AccountDetailPageState extends State<AccountDetailPage>
               endDate = endData;
             }
           });
-          bloc.add(FetchAccountTransactions(
+          bloc!.add(FetchAccountTransactions(
               input: GetTransactionsInput(
                   type: 'account',
                   accountId: widget.account.id,

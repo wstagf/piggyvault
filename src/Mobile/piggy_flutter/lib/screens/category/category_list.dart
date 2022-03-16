@@ -15,9 +15,9 @@ import 'package:piggy_flutter/widgets/common/message_placeholder.dart';
 import 'package:piggy_flutter/utils/common.dart';
 
 class CategoryListPage extends StatelessWidget {
-  const CategoryListPage({Key key, @required this.animationController})
+  const CategoryListPage({Key? key, required this.animationController})
       : super(key: key);
-  final AnimationController animationController;
+  final AnimationController? animationController;
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +59,11 @@ class CategoryListPage extends StatelessWidget {
                   leading: CircleAvatar(
                     child: Icon(
                       deserializeIcon(Map<String, dynamic>.from(
-                          json.decode(category.icon))),
+                          json.decode(category.icon!))),
                       color: PiggyAppTheme.nearlyDarkBlue,
                     ),
                   ),
-                  title: Text(category.name),
+                  title: Text(category.name!),
                   // subtitle: category.noOfTransactions > 0
                   //     ? Text(
                   //         '${category.noOfTransactions} transactions recently')
