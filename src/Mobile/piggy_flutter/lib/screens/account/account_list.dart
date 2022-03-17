@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:piggy_flutter/blocs/accounts/accounts.dart';
-import 'package:piggy_flutter/blocs/accounts/accounts_bloc.dart';
-import 'package:piggy_flutter/blocs/accounts/accounts_state.dart';
 import 'package:piggy_flutter/screens/account/account_group_list.dart';
 import 'package:piggy_flutter/theme/theme.dart';
 

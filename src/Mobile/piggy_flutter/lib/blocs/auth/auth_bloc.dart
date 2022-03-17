@@ -1,20 +1,15 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:piggy_flutter/blocs/auth/auth.dart';
 import 'package:piggy_flutter/models/login_information_result.dart';
 
 import 'package:piggy_flutter/repositories/repositories.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({required this.userRepository})
-      : assert(userRepository != null),
-        super(AuthUninitialized());
+  AuthBloc({required this.userRepository}) : super(AuthUninitialized());
 
   final UserRepository userRepository;
 
-  @override
   Stream<AuthState> mapEventToState(
     AuthEvent event,
   ) async* {
@@ -28,7 +23,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (hasToken) {
           final LoginInformationResult? result =
               await userRepository.getCurrentLoginInformation();
-          if (result == null || result.user == null || result.user!.id == null) {
+          if (result == null ||
+              result.user == null ||
+              result.user!.id == null) {
             yield AuthUnauthenticated();
           } else {
             yield AuthAuthenticated(user: result.user, tenant: result.tenant);

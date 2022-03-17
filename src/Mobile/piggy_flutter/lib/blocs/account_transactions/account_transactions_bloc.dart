@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/blocs/transaction/transaction.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
@@ -15,10 +14,8 @@ class AccountTransactionsBloc
 
   AccountTransactionsBloc(
       {required this.transactionRepository, required this.transactionBloc})
-      : assert(transactionRepository != null),
-        assert(transactionBloc != null),
-        super(AccountTransactionsEmpty(null)) {
-    transactionBlocSubscription = transactionBloc.listen((state) {
+      : super(AccountTransactionsEmpty(null)) {
+    transactionBlocSubscription = transactionBloc.stream.listen((state) {
       if (state is TransactionSaved) {
         if (this.state.filters != null) {
           add(FetchAccountTransactions(input: this.state.filters!));
@@ -27,7 +24,6 @@ class AccountTransactionsBloc
     });
   }
 
-  @override
   Stream<AccountTransactionsState> mapEventToState(
     AccountTransactionsEvent event,
   ) async* {
@@ -49,7 +45,7 @@ class AccountTransactionsBloc
       }
     } else if (event is FilterAccountTransactions) {
       if (this.state is AccountTransactionsLoaded) {
-        if (event.query == null || event.query == "") {
+        if (event.query == "") {
           yield AccountTransactionsLoaded(
               allAccountTransactions:
                   (state as AccountTransactionsLoaded).allAccountTransactions,

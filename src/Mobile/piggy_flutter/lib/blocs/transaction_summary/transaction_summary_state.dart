@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:piggy_flutter/models/models.dart';
 
 abstract class TransactionSummaryState extends Equatable {
@@ -16,8 +15,7 @@ class TransactionSummaryLoading extends TransactionSummaryState {}
 class TransactionSummaryLoaded extends TransactionSummaryState {
   final TransactionSummary summary;
 
-  const TransactionSummaryLoaded({required this.summary})
-      : assert(summary != null);
+  const TransactionSummaryLoaded({required this.summary});
   @override
   List<Object> get props => ([summary]);
 }

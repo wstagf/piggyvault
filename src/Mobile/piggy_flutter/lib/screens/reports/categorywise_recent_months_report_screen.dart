@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:piggy_flutter/blocs/categorywise_recent_months_report/bloc.dart';
-import 'package:piggy_flutter/blocs/categorywise_recent_months_report/categorywise_recent_months_report_bloc.dart';
 import 'package:piggy_flutter/models/category_wise_recent_months_report_item.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
 import 'package:piggy_flutter/widgets/common/common_drawer.dart';
@@ -42,7 +40,6 @@ class _CategoryWiseRecentMonthsReportScreenState
       appBar: AppBar(title: const Text('Categorywise Recent Months')),
       body: BlocBuilder<CategorywiseRecentMonthsReportBloc,
           CategorywiseRecentMonthsReportState>(
-        cubit: _bloc,
         builder:
             (BuildContext context, CategorywiseRecentMonthsReportState state) {
           if (state is CategorywiseRecentMonthsReportLoaded) {

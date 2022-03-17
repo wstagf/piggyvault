@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/blocs/auth/auth.dart';
 import 'package:piggy_flutter/login/login.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
@@ -11,11 +10,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthBloc authBloc;
 
   LoginBloc({required this.userRepository, required this.authBloc})
-      : assert(userRepository != null),
-        assert(authBloc != null),
-        super(LoginInitial());
+      : super(LoginInitial());
 
-  @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is LoginButtonPressed) {
       yield LoginLoading();

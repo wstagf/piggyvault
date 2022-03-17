@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/repositories/piggy_api_client.dart';
 import 'package:piggy_flutter/utils/uidata.dart';
@@ -9,8 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserRepository {
   final PiggyApiClient piggyApiClient;
 
-  UserRepository({required this.piggyApiClient})
-      : assert(piggyApiClient != null);
+  UserRepository({required this.piggyApiClient});
 
   Future<String?> authenticate(
       {required String tenancyName,

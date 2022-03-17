@@ -7,5 +7,5 @@ abstract class CategorywiseRecentMonthsReportEvent extends Equatable {
 class CategorywiseRecentMonthsReportLoad
     extends CategorywiseRecentMonthsReportEvent {
   @override
-  List<Object> get props => null;
+  List<Object> get props => [];
 }

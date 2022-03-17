@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/blocs/auth/auth.dart';
 import 'package:piggy_flutter/blocs/transaction/transaction.dart';
 import 'package:piggy_flutter/blocs/transaction_detail/bloc.dart';
@@ -27,39 +26,35 @@ class TransactionSummaryBloc
       required this.authBloc,
       required this.transactionsBloc,
       required this.transactionDetailBloc})
-      : assert(transactionRepository != null),
-        assert(authBloc != null),
-        assert(transactionsBloc != null),
-        assert(transactionDetailBloc != null),
-        super(TransactionSummaryEmpty()) {
-    authBlocSubscription = authBloc.listen((state) {
+      : super(TransactionSummaryEmpty()) {
+    authBlocSubscription = authBloc.stream.listen((state) {
       if (state is AuthAuthenticated) {
         add(RefreshTransactionSummary());
       }
     });
 
-    transactionBlocSubscription = transactionsBloc.listen((state) {
+    transactionBlocSubscription = transactionsBloc.stream.listen((state) {
       if (state is TransactionSaved) {
         add(RefreshTransactionSummary());
       }
     });
 
-    transactionDetailBlocSubscription = transactionDetailBloc.listen((state) {
+    transactionDetailBlocSubscription =
+        transactionDetailBloc.stream.listen((state) {
       if (state is TransactionDeleted) {
         add(RefreshTransactionSummary());
       }
     });
   }
 
-  @override
   Stream<TransactionSummaryState> mapEventToState(
     TransactionSummaryEvent event,
   ) async* {
     if (event is RefreshTransactionSummary) yield TransactionSummaryLoading();
     try {
       final summary =
-          await (transactionRepository.getTransactionSummary('month') as FutureOr<TransactionSummary>);
-      yield TransactionSummaryLoaded(summary: summary);
+          await (transactionRepository.getTransactionSummary('month'));
+      yield TransactionSummaryLoaded(summary: summary!);
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'TransactionSummaryBloc', error: _, stackTrace: stackTrace);

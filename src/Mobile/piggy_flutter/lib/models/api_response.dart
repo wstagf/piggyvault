@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ApiResponse<T> {
   ApiResponse(
       {required this.success,

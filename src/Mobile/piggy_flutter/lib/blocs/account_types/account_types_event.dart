@@ -6,5 +6,5 @@ abstract class AccountTypesEvent extends Equatable {
 
 class AccountTypesLoad extends AccountTypesEvent {
   @override
-  List<Object> get props => null;
+  List<Object> get props => [];
 }

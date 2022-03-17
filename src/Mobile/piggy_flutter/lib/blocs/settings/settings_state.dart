@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:piggy_flutter/models/models.dart';
 
 abstract class SettingsState extends Equatable {
@@ -13,7 +12,7 @@ class SettingsLoading extends SettingsState {}
 class SettingsLoaded extends SettingsState {
   final UserSettings settings;
 
-  SettingsLoaded({required this.settings}) : assert(settings != null);
+  SettingsLoaded({required this.settings});
 
   @override
   List<Object> get props => [settings];

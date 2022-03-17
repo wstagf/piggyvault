@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:piggy_flutter/models/transaction.dart';
 
 class TransactionGroupItem {

@@ -2,18 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:piggy_flutter/blocs/recent_transactions/bloc.dart';
 import 'package:piggy_flutter/models/models.dart';
-import 'package:piggy_flutter/models/transaction_group_item.dart';
 import 'package:piggy_flutter/theme/piggy_app_theme.dart';
-import 'package:piggy_flutter/widgets/common/calendar_popup_view.dart';
 import 'package:piggy_flutter/widgets/common/common.dart';
-import 'package:piggy_flutter/widgets/common/empty_result_widget.dart';
-import 'package:piggy_flutter/widgets/common/error_display_widget.dart';
-import 'package:piggy_flutter/widgets/common/loading_widget.dart';
 import 'package:piggy_flutter/widgets/common/search_bar.dart';
 import 'package:piggy_flutter/widgets/transaction_list.dart';
 
@@ -179,7 +173,7 @@ class _RecentTransactionsPageState extends State<RecentTransactionsPage>
                                           .backgroundColor,
                                       child: BlocBuilder<RecentTransactionsBloc,
                                           RecentTransactionsState>(
-                                        cubit: recentTransactionsBloc!,
+                                        bloc: recentTransactionsBloc!,
                                         builder: (BuildContext context,
                                             RecentTransactionsState state) {
                                           if (state
@@ -261,7 +255,8 @@ class _RecentTransactionsPageState extends State<RecentTransactionsPage>
         });
   }
 
-  void showDemoDialog({required BuildContext context, RecentTransactionsBloc? bloc}) {
+  void showDemoDialog(
+      {required BuildContext context, RecentTransactionsBloc? bloc}) {
     showDialog<dynamic>(
       context: context,
       builder: (BuildContext context) => CalendarPopupView(
@@ -270,20 +265,20 @@ class _RecentTransactionsPageState extends State<RecentTransactionsPage>
         //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
         initialEndDate: endDate,
         initialStartDate: startDate,
-        onApplyClick: (DateTime startData, DateTime endData) {
-          setState(() {
-            if (startData != null && endData != null) {
+        onApplyClick: (DateTime? startData, DateTime? endData) {
+          if (startData != null && endData != null) {
+            setState(() {
               startDate = startData;
               endDate = endData;
-            }
-          });
-          bloc!.add(FetchRecentTransactions(
-              input: GetTransactionsInput(
-                  type: 'tenant',
-                  accountId: null,
-                  startDate: startDate,
-                  endDate: endDate,
-                  groupBy: TransactionsGroupBy.Date)));
+            });
+            bloc!.add(FetchRecentTransactions(
+                input: GetTransactionsInput(
+                    type: 'tenant',
+                    accountId: null,
+                    startDate: startDate,
+                    endDate: endDate,
+                    groupBy: TransactionsGroupBy.Date)));
+          }
         },
         onCancelClick: () {},
       ),
@@ -320,7 +315,7 @@ class _RecentTransactionsPageState extends State<RecentTransactionsPage>
                 Expanded(
                   child: BlocBuilder<RecentTransactionsBloc,
                           RecentTransactionsState>(
-                      cubit: recentTransactionsBloc!,
+                      bloc: recentTransactionsBloc!,
                       builder: (context, state) {
                         if (state is RecentTransactionsLoaded) {
                           return Padding(

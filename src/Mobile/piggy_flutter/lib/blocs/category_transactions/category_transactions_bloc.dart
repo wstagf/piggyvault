@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/blocs/transaction/transaction.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
@@ -10,10 +9,8 @@ class CategoryTransactionsBloc
     extends Bloc<CategoryTransactionsEvent, CategoryTransactionsState> {
   CategoryTransactionsBloc(
       {required this.transactionRepository, required this.transactionBloc})
-      : assert(transactionRepository != null),
-        assert(transactionBloc != null),
-        super(CategoryTransactionsEmpty(null)) {
-    transactionBlocSubscription = transactionBloc.listen((state) {
+      : super(CategoryTransactionsEmpty(null)) {
+    transactionBlocSubscription = transactionBloc.stream.listen((state) {
       if (state is TransactionSaved) {
         if (this.state.filters != null) {
           add(FetchCategoryTransactions(input: this.state.filters!));
@@ -26,7 +23,6 @@ class CategoryTransactionsBloc
   final TransactionBloc transactionBloc;
   late StreamSubscription transactionBlocSubscription;
 
-  @override
   Stream<CategoryTransactionsState> mapEventToState(
     CategoryTransactionsEvent event,
   ) async* {
@@ -49,7 +45,7 @@ class CategoryTransactionsBloc
       }
     } else if (event is FilterCategoryTransactions) {
       if (state is CategoryTransactionsLoaded) {
-        if (event.query == null || event.query == '') {
+        if (event.query == '') {
           yield CategoryTransactionsLoaded(
               allCategoryTransactions:
                   (state as CategoryTransactionsLoaded).allCategoryTransactions,

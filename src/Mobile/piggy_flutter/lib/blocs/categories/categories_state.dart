@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:piggy_flutter/models/models.dart';
-import 'package:meta/meta.dart';
 
 abstract class CategoriesState extends Equatable {
   const CategoriesState();

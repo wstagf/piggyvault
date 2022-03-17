@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/models/models.dart';
 
 // TODO: need to re-visit filters handling in states

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/models/models.dart';
 
 abstract class RecentTransactionsEvent extends Equatable {
@@ -12,7 +11,7 @@ abstract class RecentTransactionsEvent extends Equatable {
 class GroupRecentTransactions extends RecentTransactionsEvent {
   final TransactionsGroupBy groupBy;
 
-  GroupRecentTransactions({required this.groupBy}) : assert(groupBy != null);
+  GroupRecentTransactions({required this.groupBy});
 
   @override
   List<Object> get props => [groupBy];
@@ -21,7 +20,7 @@ class GroupRecentTransactions extends RecentTransactionsEvent {
 class FetchRecentTransactions extends RecentTransactionsEvent {
   final GetTransactionsInput input;
 
-  FetchRecentTransactions({required this.input}) : assert(input != null);
+  FetchRecentTransactions({required this.input});
 }
 
 class FilterRecentTransactions extends RecentTransactionsEvent {

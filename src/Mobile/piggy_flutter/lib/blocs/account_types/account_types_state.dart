@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:piggy_flutter/models/account_type_model.dart';
 
 abstract class AccountTypesState extends Equatable {
@@ -12,8 +11,7 @@ class AccountTypesLoading extends AccountTypesState {
 }
 
 class AccountTypesLoaded extends AccountTypesState {
-  const AccountTypesLoaded({required this.accountTypes})
-      : assert(accountTypes != null);
+  const AccountTypesLoaded({required this.accountTypes});
 
   final List<AccountType> accountTypes;
 

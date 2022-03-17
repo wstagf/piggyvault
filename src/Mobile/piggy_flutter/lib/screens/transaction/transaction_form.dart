@@ -1,21 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+
 import 'package:piggy_flutter/blocs/accounts/accounts.dart';
 import 'package:piggy_flutter/blocs/categories/categories_bloc.dart';
 import 'package:piggy_flutter/blocs/categories/categories_state.dart';
 import 'package:piggy_flutter/blocs/transaction/transaction.dart';
-import 'package:piggy_flutter/models/account.dart';
-import 'package:piggy_flutter/models/category.dart';
 import 'package:piggy_flutter/models/models.dart';
-import 'package:piggy_flutter/models/transaction.dart';
-import 'package:piggy_flutter/models/transaction_edit_dto.dart';
 import 'package:piggy_flutter/services/transaction_service.dart';
 import 'package:piggy_flutter/utils/uidata.dart';
 import 'package:piggy_flutter/widgets/common/common_dialogs.dart';
 import 'package:piggy_flutter/widgets/date_time_picker.dart';
 import 'package:piggy_flutter/widgets/primary_color_override.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 
 class TransactionFormPage extends StatefulWidget {
   const TransactionFormPage(
@@ -101,8 +98,8 @@ class TransactionFormPageState extends State<TransactionFormPage> {
 
           _descriptionFieldController =
               TextEditingController(text: transactionEditDto!.description);
-          _amountFieldController =
-              TextEditingController(text: transactionEditDto!.amount.toString());
+          _amountFieldController = TextEditingController(
+              text: transactionEditDto!.amount.toString());
         });
       });
     }
@@ -141,7 +138,7 @@ class TransactionFormPageState extends State<TransactionFormPage> {
               showSuccess(
                   context: context,
                   message: UIData.success,
-                  icon: MaterialCommunityIcons.check);
+                  icon: CommunityMaterialIcons.check);
             }
           },
           child: DropdownButtonHideUnderline(
@@ -200,8 +197,9 @@ class TransactionFormPageState extends State<TransactionFormPage> {
                                 ? null
                                 : _account!.currencySymbol,
                             prefixStyle: _transactionTextStyle,
-                            suffixText:
-                                _account == null ? null : _account!.currencyCode,
+                            suffixText: _account == null
+                                ? null
+                                : _account!.currencyCode,
                             suffixStyle: _transactionTextStyle),
                         maxLines: 1,
                         controller: _amountFieldController,

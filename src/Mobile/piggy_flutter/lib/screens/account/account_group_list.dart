@@ -30,7 +30,8 @@ class AccountGroupList extends StatelessWidget {
     return ExpansionTile(
         title: Text(title,
             style: Theme.of(context).textTheme.headline6!.copyWith(
-                fontSize: 16.0, color: Theme.of(context).accentColor)),
+                fontSize: 16.0,
+                color: Theme.of(context).colorScheme.secondary)),
         initiallyExpanded: true,
         backgroundColor: PiggyAppTheme.white,
         children: accountTiles.toList());
@@ -42,7 +43,8 @@ class AccountGroupList extends StatelessWidget {
         dense: true,
         leading: Icon(Icons.account_balance_wallet,
             color: Theme.of(context).disabledColor),
-        title: Text(account.name!, style: Theme.of(context).textTheme.bodyText1),
+        title:
+            Text(account.name!, style: Theme.of(context).textTheme.bodyText1),
         subtitle: Text(
           account.accountType!,
         ),

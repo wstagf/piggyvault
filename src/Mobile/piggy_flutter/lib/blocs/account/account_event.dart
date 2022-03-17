@@ -1,17 +1,16 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 
 abstract class AccountEvent extends Equatable {
   const AccountEvent();
 
   @override
-  List<Object> get props => null;
+  List<Object> get props => [];
 }
 
 class FetchAccount extends AccountEvent {
   final String accountId;
 
-  FetchAccount({required this.accountId}) : assert(accountId != null);
+  FetchAccount({required this.accountId});
 
   @override
   List<Object> get props => [accountId];

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -8,10 +10,7 @@ import 'package:piggy_flutter/blocs/categorywise_accounts_report/bloc.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
 import 'package:piggy_flutter/theme/piggy_app_theme.dart';
-import 'package:piggy_flutter/widgets/common/calendar_popup_view.dart';
 import 'package:piggy_flutter/widgets/common/common.dart';
-import 'package:piggy_flutter/widgets/common/error_display_widget.dart';
-import 'package:piggy_flutter/widgets/common/loading_widget.dart';
 
 import 'categorywise_accounts_list.dart';
 
@@ -162,7 +161,7 @@ class _CategorywiseAccountsReportScreenState
                                 child: BlocBuilder<
                                     CategorywiseAccountsReportBloc,
                                     CategorywiseAccountsReportState>(
-                                  cubit: reportBloc,
+                                  bloc: reportBloc,
                                   builder: (BuildContext context,
                                       CategorywiseAccountsReportState state) {
                                     return SafeArea(
@@ -447,21 +446,21 @@ class _CategorywiseAccountsReportScreenState
         //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
         initialEndDate: endDate,
         initialStartDate: startDate,
-        onApplyClick: (DateTime startData, DateTime endData) {
-          setState(() {
-            if (startData != null && endData != null) {
+        onApplyClick: (DateTime? startData, DateTime? endData) {
+          if (startData != null && endData != null) {
+            setState(() {
               startDate = startData;
               endDate = endData;
-            }
-          });
-          reportBloc.add(
-            CategorywiseAccountsReportLoad(
-              input: GetCategoryReportInput(
-                startDate: startDate,
-                endDate: endDate,
+            });
+            reportBloc.add(
+              CategorywiseAccountsReportLoad(
+                input: GetCategoryReportInput(
+                  startDate: startDate,
+                  endDate: endDate,
+                ),
               ),
-            ),
-          );
+            );
+          }
         },
         onCancelClick: () {},
       ),

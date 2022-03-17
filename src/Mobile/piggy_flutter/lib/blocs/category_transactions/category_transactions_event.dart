@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/models/models.dart';
 
 abstract class CategoryTransactionsEvent extends Equatable {
@@ -11,7 +10,7 @@ abstract class CategoryTransactionsEvent extends Equatable {
 class FetchCategoryTransactions extends CategoryTransactionsEvent {
   final GetTransactionsInput input;
 
-  FetchCategoryTransactions({required this.input}) : assert(input != null);
+  FetchCategoryTransactions({required this.input});
 
   @override
   List<Object> get props => [input];

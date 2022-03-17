@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:piggy_flutter/blocs/accounts/accounts.dart';
 import 'package:piggy_flutter/blocs/auth/auth.dart';
@@ -15,24 +14,21 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       required this.authBloc,
       required this.transactionsBloc,
       required this.transactionDetailBloc})
-      : assert(accountRepository != null),
-        assert(authBloc != null),
-        assert(transactionsBloc != null),
-        assert(transactionDetailBloc != null),
-        super(AccountsLoading()) {
-    authBlocSubscription = authBloc.listen((state) {
+      : super(AccountsLoading()) {
+    authBlocSubscription = authBloc.stream.listen((state) {
       if (state is AuthAuthenticated) {
         add(LoadAccounts());
       }
     });
 
-    transactionBlocSubscription = transactionsBloc.listen((state) {
+    transactionBlocSubscription = transactionsBloc.stream.listen((state) {
       if (state is TransactionSaved) {
         add(LoadAccounts());
       }
     });
 
-    transactionDetailBlocSubscription = transactionDetailBloc.listen((state) {
+    transactionDetailBlocSubscription =
+        transactionDetailBloc.stream.listen((state) {
       if (state is TransactionDeleted) {
         add(LoadAccounts());
       }
@@ -50,7 +46,6 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   final TransactionDetailBloc transactionDetailBloc;
   late StreamSubscription transactionDetailBlocSubscription;
 
-  @override
   Stream<AccountsState> mapEventToState(
     AccountsEvent event,
   ) async* {

@@ -2,18 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:piggy_flutter/blocs/account_form/bloc.dart';
 import 'package:piggy_flutter/blocs/account_types/bloc.dart';
 import 'package:piggy_flutter/blocs/accounts/accounts.dart';
 import 'package:piggy_flutter/blocs/currencies/bloc.dart';
-import 'package:piggy_flutter/models/account.dart';
-import 'package:piggy_flutter/models/currency.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
 import 'package:piggy_flutter/utils/uidata.dart';
 import 'package:piggy_flutter/widgets/common/common.dart';
 import 'package:piggy_flutter/widgets/primary_color_override.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 
 class AccountFormScreen extends StatefulWidget {
   const AccountFormScreen({Key? key, this.title, this.account})
@@ -76,7 +74,6 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
           ],
         ),
         body: BlocListener<AccountFormBloc, AccountFormState>(
-          cubit: accountFormBloc,
           listener: (BuildContext context, AccountFormState state) {
             if (state is AccountFormSaving) {
               showProgress(context);
@@ -87,11 +84,10 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
               showSuccess(
                   context: context,
                   message: UIData.success,
-                  icon: MaterialCommunityIcons.check);
+                  icon: CommunityMaterialIcons.check);
             }
           },
           child: BlocBuilder<AccountFormBloc, AccountFormState>(
-            cubit: accountFormBloc,
             builder: (BuildContext context, AccountFormState state) {
               if (state is AccountFormLoaded) {
                 accountFormModel = state.account;
@@ -108,39 +104,36 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                       padding: const EdgeInsets.all(16.0),
                       children: <Widget>[
                         _nameField(theme),
-                        BlocBuilder<CurrenciesBloc, CurrenciesState>(
-                            cubit: currenciesBloc,
-                            builder: (BuildContext context,
+                        BlocBuilder<CurrenciesBloc, CurrenciesState>(builder:
+                            (BuildContext context,
                                 CurrenciesState currenciesState) {
-                              if (currenciesState is CurrenciesLoaded) {
-                                return InputDecorator(
-                                    decoration: const InputDecoration(
-                                      labelText: 'Currency',
-                                      hintText: 'Choose a currency',
-                                    ),
-                                    isEmpty:
-                                        accountFormModel!.currencyId == null,
-                                    child: DropdownButton<int>(
-                                      value: accountFormModel!.currencyId,
-                                      onChanged: (int? value) {
-                                        setState(() {
-                                          accountFormModel!.currencyId = value;
-                                        });
-                                      },
-                                      items: currenciesState.currencies
-                                          .map((Currency currency) {
-                                        return DropdownMenuItem<int>(
-                                          value: currency.id,
-                                          child: Text(currency.name!),
-                                        );
-                                      }).toList(),
-                                    ));
-                              } else {
-                                return const LinearProgressIndicator();
-                              }
-                            }),
+                          if (currenciesState is CurrenciesLoaded) {
+                            return InputDecorator(
+                                decoration: const InputDecoration(
+                                  labelText: 'Currency',
+                                  hintText: 'Choose a currency',
+                                ),
+                                isEmpty: accountFormModel!.currencyId == null,
+                                child: DropdownButton<int>(
+                                  value: accountFormModel!.currencyId,
+                                  onChanged: (int? value) {
+                                    setState(() {
+                                      accountFormModel!.currencyId = value;
+                                    });
+                                  },
+                                  items: currenciesState.currencies
+                                      .map((Currency currency) {
+                                    return DropdownMenuItem<int>(
+                                      value: currency.id,
+                                      child: Text(currency.name!),
+                                    );
+                                  }).toList(),
+                                ));
+                          } else {
+                            return const LinearProgressIndicator();
+                          }
+                        }),
                         BlocBuilder<AccountTypesBloc, AccountTypesState>(
-                          cubit: accountTypesBloc,
                           builder: (BuildContext context,
                               AccountTypesState accountTypestate) {
                             if (accountTypestate is AccountTypesLoaded) {
@@ -149,7 +142,8 @@ class _AccountFormScreenState extends State<AccountFormScreen> {
                                   labelText: 'Type',
                                   hintText: 'Choose an account type',
                                 ),
-                                isEmpty: accountFormModel!.accountTypeId == null,
+                                isEmpty:
+                                    accountFormModel!.accountTypeId == null,
                                 child: DropdownButton<int>(
                                   value: accountFormModel!.accountTypeId,
                                   onChanged: (int? value) {

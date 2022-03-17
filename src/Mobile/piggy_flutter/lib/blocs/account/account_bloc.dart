@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/blocs/transaction/transaction.dart';
 import 'package:piggy_flutter/blocs/transaction_detail/bloc.dart';
 import 'package:piggy_flutter/models/account.dart';
@@ -12,17 +11,15 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       {required this.accountRepository,
       required this.transactionsBloc,
       required this.transactionDetailBloc})
-      : assert(accountRepository != null),
-        assert(transactionsBloc != null),
-        assert(transactionDetailBloc != null),
-        super(AccountEmpty(null)) {
-    transactionBlocSubscription = transactionsBloc.listen((state) {
+      : super(AccountEmpty(null)) {
+    transactionBlocSubscription = transactionsBloc.stream.listen((state) {
       if (state is TransactionSaved) {
         add(RefreshAccount());
       }
     });
 
-    transactionDetailBlocSubscription = transactionDetailBloc.listen((state) {
+    transactionDetailBlocSubscription =
+        transactionDetailBloc.stream.listen((state) {
       if (state is TransactionDeleted) {
         add(RefreshAccount());
       }
@@ -37,7 +34,6 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   final TransactionDetailBloc transactionDetailBloc;
   late StreamSubscription transactionDetailBlocSubscription;
 
-  @override
   Stream<AccountState> mapEventToState(
     AccountEvent event,
   ) async* {
@@ -45,8 +41,8 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       yield AccountLoading(event.accountId);
 
       try {
-        final Account account =
-            await (accountRepository.getAccountDetails(event.accountId) as FutureOr<Account>);
+        final Account account = await (accountRepository
+            .getAccountDetails(event.accountId) as FutureOr<Account>);
 
         yield AccountLoaded(account: account);
       } catch (e) {

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:piggy_flutter/theme/piggy_app_theme.dart';
@@ -179,12 +177,15 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                               maximumDate: widget.maximumDate,
                               initialEndDate: widget.initialEndDate,
                               initialStartDate: widget.initialStartDate,
-                              startEndDateChange: (DateTime startDateData,
-                                  DateTime endDateData) {
-                                setState(() {
-                                  startDate = startDateData;
-                                  endDate = endDateData;
-                                });
+                              startEndDateChange: (DateTime? startDateData,
+                                  DateTime? endDateData) {
+                                if (startDateData != null &&
+                                    endDateData != null) {
+                                  setState(() {
+                                    startDate = startDateData;
+                                    endDate = endDateData;
+                                  });
+                                }
                               },
                             ),
                             Padding(
@@ -216,7 +217,8 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                                         // animationController.reverse().then((f) {
 
                                         // });
-                                        widget.onApplyClick!(startDate, endDate);
+                                        widget.onApplyClick!(
+                                            startDate, endDate);
                                         Navigator.pop(context);
                                       } catch (_) {}
                                     },

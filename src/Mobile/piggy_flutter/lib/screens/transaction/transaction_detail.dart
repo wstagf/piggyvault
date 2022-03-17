@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:piggy_flutter/blocs/auth/auth.dart';
 import 'package:piggy_flutter/blocs/transaction/transaction.dart';
 import 'package:piggy_flutter/blocs/transaction_comments/bloc.dart';
-import 'package:piggy_flutter/blocs/transaction_comments/transaction_comments_bloc.dart';
 import 'package:piggy_flutter/blocs/transaction_detail/bloc.dart';
 import 'package:piggy_flutter/models/transaction.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
@@ -170,11 +169,12 @@ class TransactionDetailPageState extends State<TransactionDetailPage> {
   }
 
   void dispose() {
-    _commentController?.dispose();
+    _commentController.dispose();
     super.dispose();
   }
 
-  void showDeleteConfirmationDialog<T>({required BuildContext context, Widget? child}) {
+  void showDeleteConfirmationDialog<T>(
+      {required BuildContext context, Widget? child}) {
     showDialog<T>(
       context: context,
       builder: (BuildContext context) => child!,
@@ -213,7 +213,7 @@ class TransactionDetailPageState extends State<TransactionDetailPage> {
 
   Widget _transactionComments() {
     return BlocBuilder(
-        cubit: transactionCommentsBloc,
+        bloc: transactionCommentsBloc,
         builder: (context, dynamic state) {
           if (state is TransactionCommentsLoaded) {
             return Card(

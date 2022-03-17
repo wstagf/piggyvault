@@ -13,7 +13,8 @@ import 'package:piggy_flutter/theme/piggy_app_theme.dart';
 import 'package:piggy_flutter/utils/common.dart';
 
 class TransactionList extends StatelessWidget {
-  TransactionList({Key? key, required this.items, this.isLoading, bool? visible})
+  TransactionList(
+      {Key? key, required this.items, this.isLoading, bool? visible})
       : visible = visible ?? items.isNotEmpty,
         super(key: key);
 
@@ -69,7 +70,8 @@ class TransactionList extends StatelessWidget {
         children: <Widget>[
           Text('${item.title}',
               style: Theme.of(context).textTheme.headline6!.copyWith(
-                  fontSize: 16.0, color: Theme.of(context).accentColor)),
+                  fontSize: 16.0,
+                  color: Theme.of(context).colorScheme.secondary)),
           Row(
             children: <Widget>[
               Chip(

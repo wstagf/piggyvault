@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:piggy_flutter/blocs/categories/categories.dart';
 import 'package:piggy_flutter/models/category.dart';
 import 'package:piggy_flutter/utils/uidata.dart';
@@ -38,7 +38,7 @@ class CategoryFormPageState extends State<CategoryFormPage> {
 
   _pickIcon() async {
     IconData? icon = await FlutterIconPicker.showIconPicker(context,
-        iconPackMode: IconPack.fontAwesomeIcons);
+        iconPackModes: [IconPack.fontAwesomeIcons]);
 
     if (icon != null) {
       _icon = Icon(icon);
@@ -93,7 +93,7 @@ class CategoryFormPageState extends State<CategoryFormPage> {
               showSuccess(
                   context: context,
                   message: UIData.success,
-                  icon: MaterialCommunityIcons.check);
+                  icon: CommunityMaterialIcons.check);
             }
           },
           child: DropdownButtonHideUnderline(
@@ -136,7 +136,7 @@ class CategoryFormPageState extends State<CategoryFormPage> {
                     const SizedBox(height: 24.0),
                     Text('* all fields are mandatory',
                         style: Theme.of(context).textTheme.caption),
-                  ].where((child) => child != null).toList(),
+                  ].toList(),
                 ),
               ),
             ),

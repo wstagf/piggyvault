@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:piggy_flutter/blocs/auth/auth.dart';
 import 'package:piggy_flutter/blocs/transaction/transaction.dart';
@@ -27,13 +26,9 @@ class RecentTransactionsBloc
       required this.authBloc,
       required this.transactionsBloc,
       required this.transactionDetailBloc})
-      : assert(transactionRepository != null),
-        assert(authBloc != null),
-        assert(transactionsBloc != null),
-        assert(transactionDetailBloc != null),
-        super(RecentTransactionsEmpty(null)) {
+      : super(RecentTransactionsEmpty(null)) {
     // TODO: DRY
-    authBlocSubscription = authBloc.listen((state) {
+    authBlocSubscription = authBloc.stream.listen((state) {
       if (state is AuthAuthenticated) {
         add(FetchRecentTransactions(
             input: GetTransactionsInput(
@@ -45,7 +40,7 @@ class RecentTransactionsBloc
       }
     });
 
-    transactionBlocSubscription = transactionsBloc.listen((state) {
+    transactionBlocSubscription = transactionsBloc.stream.listen((state) {
       if (state is TransactionSaved) {
         add(FetchRecentTransactions(
             input: GetTransactionsInput(
@@ -57,7 +52,8 @@ class RecentTransactionsBloc
       }
     });
 
-    transactionDetailBlocSubscription = transactionDetailBloc.listen((state) {
+    transactionDetailBlocSubscription =
+        transactionDetailBloc.stream.listen((state) {
       if (state is TransactionDeleted) {
         add(FetchRecentTransactions(
             input: GetTransactionsInput(
@@ -70,7 +66,6 @@ class RecentTransactionsBloc
     });
   }
 
-  @override
   Stream<RecentTransactionsState> mapEventToState(
     RecentTransactionsEvent event,
   ) async* {
@@ -122,7 +117,7 @@ class RecentTransactionsBloc
       }
     } else if (event is FilterRecentTransactions) {
       if (this.state is RecentTransactionsLoaded) {
-        if (event.query == null || event.query == "") {
+        if (event.query == "") {
           yield RecentTransactionsLoaded(
               allTransactions:
                   (state as RecentTransactionsLoaded).allTransactions,

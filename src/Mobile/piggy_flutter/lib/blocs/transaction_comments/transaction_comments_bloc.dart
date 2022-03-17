@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
 import './bloc.dart';
 
@@ -9,10 +8,8 @@ class TransactionCommentsBloc
   final TransactionRepository transactionRepository;
 
   TransactionCommentsBloc({required this.transactionRepository})
-      : assert(transactionRepository != null),
-        super(TransactionCommentsLoading());
+      : super(TransactionCommentsLoading());
 
-  @override
   Stream<TransactionCommentsState> mapEventToState(
     TransactionCommentsEvent event,
   ) async* {

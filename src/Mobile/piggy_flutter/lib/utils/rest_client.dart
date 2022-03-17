@@ -14,16 +14,21 @@ class RestClient {
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString(UIData.authToken);
     var tenantId = prefs.getInt(UIData.tenantId);
-    var response = await http.get('$ApiEndpointUrl/$resourcePath', headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-      'Piggy-TenantId': tenantId.toString()
-    });
+    var response = await http.get(
+        Uri.parse(
+          '$ApiEndpointUrl/$resourcePath',
+        ),
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+          'Piggy-TenantId': tenantId.toString()
+        });
     return processResponse<T>(response);
   }
 
-  Future<ApiResponse<T?>> postAsync<T>(String resourcePath, dynamic data) async {
+  Future<ApiResponse<T?>> postAsync<T>(
+      String resourcePath, dynamic data) async {
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString(UIData.authToken);
     var tenantId = prefs.getInt(UIData.tenantId);
@@ -47,7 +52,7 @@ class RestClient {
     }
 
     // print(content);
-    var response = await http.post('$ApiEndpointUrl/$resourcePath',
+    var response = await http.post(Uri.parse('$ApiEndpointUrl/$resourcePath'),
         body: content, headers: headers);
     return processResponse<T>(response);
   }

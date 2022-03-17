@@ -20,7 +20,7 @@ class PageDragger extends StatefulWidget {
     this.canDragRightToLeft,
     this.slideUpdateStream,
     this.fullTransitionPX = FULL_TARNSITION_PX,
-  }) : assert(fullTransitionPX != null);
+  });
 
   @override
   _PageDraggerState createState() => _PageDraggerState();

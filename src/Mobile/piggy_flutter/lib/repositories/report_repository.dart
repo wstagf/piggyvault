@@ -1,11 +1,9 @@
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/repositories/piggy_api_client.dart';
 
 class ReportRepository {
-  ReportRepository({required this.piggyApiClient})
-      : assert(piggyApiClient != null);
+  ReportRepository({required this.piggyApiClient});
 
   final PiggyApiClient piggyApiClient;
 
@@ -39,8 +37,14 @@ class ReportRepository {
           amountInDefaultCurrency: item.amountInDefaultCurrency,
           currencyCode: item.currencyCode));
 
-      categoryGroup.totalAmountInDefaultCurrency +=
-          item.amountInDefaultCurrency!;
+      if (categoryGroup.totalAmountInDefaultCurrency == null) {
+        categoryGroup.totalAmountInDefaultCurrency =
+            0 + item.amountInDefaultCurrency!;
+      } else {
+        categoryGroup.totalAmountInDefaultCurrency =
+            categoryGroup.totalAmountInDefaultCurrency! +
+                item.amountInDefaultCurrency!;
+      }
     }
 
     return output;

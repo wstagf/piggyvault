@@ -4,23 +4,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:piggy_flutter/blocs/categories/categories_bloc.dart';
 import 'package:piggy_flutter/blocs/category_transactions/bloc.dart';
 import 'package:piggy_flutter/blocs/transaction/transaction.dart';
-import 'package:piggy_flutter/models/get_transactions_input.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
 import 'package:piggy_flutter/theme/piggy_app_theme.dart';
 import 'package:piggy_flutter/utils/uidata.dart';
 import 'package:piggy_flutter/widgets/add_transaction_fab.dart';
-import 'package:piggy_flutter/widgets/common/calendar_popup_view.dart';
 import 'package:piggy_flutter/widgets/common/common.dart';
-import 'package:piggy_flutter/widgets/common/empty_result_widget.dart';
-import 'package:piggy_flutter/widgets/common/error_display_widget.dart';
-import 'package:piggy_flutter/widgets/common/loading_widget.dart';
 import 'package:piggy_flutter/widgets/common/search_bar.dart';
 import 'package:piggy_flutter/widgets/transaction_list.dart';
 import 'package:piggy_flutter/utils/common.dart';
@@ -243,7 +237,6 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
                                     .backgroundColor,
                                 child: BlocBuilder<CategoryTransactionsBloc,
                                     CategoryTransactionsState>(
-                                  cubit: categoryTransactionsBloc,
                                   builder: (BuildContext context,
                                       CategoryTransactionsState state) {
                                     if (state is CategoryTransactionsLoaded) {
@@ -539,49 +532,51 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
                           ),
                           BlocBuilder<CategoryTransactionsBloc,
                                   CategoryTransactionsState>(
-                              cubit: categoryTransactionsBloc,
                               builder: (BuildContext context,
                                   CategoryTransactionsState state) {
-                                if (state is CategoryTransactionsLoaded) {
-                                  return Text(
-                                    '${state.filterdCategoryTransactions.totalIncome} | ${state.filterdCategoryTransactions.totalExpense}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w100,
-                                      fontSize: 16,
-                                    ),
-                                  );
-                                }
-                                if (state is CategoryTransactionsLoading) {
-                                  return Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SpinKitWave(
-                                          size: 16,
-                                          color: PiggyAppTheme.buildLightTheme()
-                                              .accentColor,
-                                          type: SpinKitWaveType.start),
-                                      SpinKitWave(
-                                          size: 16,
-                                          color: PiggyAppTheme.buildLightTheme()
-                                              .accentColor,
-                                          type: SpinKitWaveType.center),
-                                      SpinKitWave(
-                                          size: 16,
-                                          color: PiggyAppTheme.buildLightTheme()
-                                              .accentColor,
-                                          type: SpinKitWaveType.end),
-                                    ],
-                                  );
-                                }
-                                return Text(
-                                  '---',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 16,
-                                  ),
-                                );
-                              })
+                            if (state is CategoryTransactionsLoaded) {
+                              return Text(
+                                '${state.filterdCategoryTransactions.totalIncome} | ${state.filterdCategoryTransactions.totalExpense}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 16,
+                                ),
+                              );
+                            }
+                            if (state is CategoryTransactionsLoading) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SpinKitWave(
+                                      size: 16,
+                                      color: PiggyAppTheme.buildLightTheme()
+                                          .colorScheme
+                                          .secondary,
+                                      type: SpinKitWaveType.start),
+                                  SpinKitWave(
+                                      size: 16,
+                                      color: PiggyAppTheme.buildLightTheme()
+                                          .colorScheme
+                                          .secondary,
+                                      type: SpinKitWaveType.center),
+                                  SpinKitWave(
+                                      size: 16,
+                                      color: PiggyAppTheme.buildLightTheme()
+                                          .colorScheme
+                                          .secondary,
+                                      type: SpinKitWaveType.end),
+                                ],
+                              );
+                            }
+                            return Text(
+                              '---',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w100,
+                                fontSize: 16,
+                              ),
+                            );
+                          })
                         ],
                       ),
                     ),
@@ -624,55 +619,52 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
               children: <Widget>[
                 Expanded(
                   child: BlocBuilder<CategoryTransactionsBloc,
-                          CategoryTransactionsState>(
-                      cubit: categoryTransactionsBloc,
-                      builder: (context, state) {
-                        if (state is CategoryTransactionsLoaded) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '${state.filterdCategoryTransactions.transactions.length} transactions found',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                              ),
-                            ),
-                          );
-                        }
-                        if (state is CategoryTransactionsEmpty) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '0 transactions found',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                              ),
-                            ),
-                          );
-                        }
-
-                        if (state is CategoryTransactionsLoading) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SpinKitThreeBounce(
-                              color:
-                                  PiggyAppTheme.buildLightTheme().primaryColor,
-                              size: 16,
-                            ),
-                          );
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '---',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
+                      CategoryTransactionsState>(builder: (context, state) {
+                    if (state is CategoryTransactionsLoaded) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${state.filterdCategoryTransactions.transactions.length} transactions found',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w100,
+                            fontSize: 16,
                           ),
-                        );
-                      }),
+                        ),
+                      );
+                    }
+                    if (state is CategoryTransactionsEmpty) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '0 transactions found',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w100,
+                            fontSize: 16,
+                          ),
+                        ),
+                      );
+                    }
+
+                    if (state is CategoryTransactionsLoading) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SpinKitThreeBounce(
+                          color: PiggyAppTheme.buildLightTheme().primaryColor,
+                          size: 16,
+                        ),
+                      );
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '---',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w100,
+                          fontSize: 16,
+                        ),
+                      ),
+                    );
+                  }),
                 ),
                 Material(
                   color: Colors.transparent,
@@ -731,7 +723,8 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
     );
   }
 
-  void showDemoDialog({required BuildContext context, CategoryTransactionsBloc? bloc}) {
+  void showDemoDialog(
+      {required BuildContext context, CategoryTransactionsBloc? bloc}) {
     showDialog<dynamic>(
       context: context,
       builder: (BuildContext context) => CalendarPopupView(
@@ -740,20 +733,20 @@ class _CategoryDetailPageState extends State<CategoryDetailPage>
         //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
         initialEndDate: endDate,
         initialStartDate: startDate,
-        onApplyClick: (DateTime startData, DateTime endData) {
-          setState(() {
-            if (startData != null && endData != null) {
+        onApplyClick: (DateTime? startData, DateTime? endData) {
+          if (startData != null && endData != null) {
+            setState(() {
               startDate = startData;
               endDate = endData;
-            }
-          });
-          bloc!.add(FetchCategoryTransactions(
-              input: GetTransactionsInput(
-                  type: 'category',
-                  categoryId: widget.category.id,
-                  startDate: startDate,
-                  endDate: endDate,
-                  groupBy: TransactionsGroupBy.Date)));
+            });
+            bloc!.add(FetchCategoryTransactions(
+                input: GetTransactionsInput(
+                    type: 'category',
+                    categoryId: widget.category.id,
+                    startDate: startDate,
+                    endDate: endDate,
+                    groupBy: TransactionsGroupBy.Date)));
+          }
         },
         onCancelClick: () {},
       ),

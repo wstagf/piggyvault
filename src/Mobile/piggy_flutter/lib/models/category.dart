@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Category {
   Category({required this.id, this.name, this.icon});
 

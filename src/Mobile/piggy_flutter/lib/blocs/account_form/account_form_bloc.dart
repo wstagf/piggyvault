@@ -1,21 +1,17 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/widgets.dart';
 import 'package:piggy_flutter/blocs/accounts/accounts.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/repositories/repositories.dart';
 import './bloc.dart';
 
 class AccountFormBloc extends Bloc<AccountFormEvent, AccountFormState> {
-  AccountFormBloc(
-      {required this.accountsBloc, required this.accountRepository})
-      : assert(accountRepository != null),
-        super(InitialAccountFormState());
+  AccountFormBloc({required this.accountsBloc, required this.accountRepository})
+      : super(InitialAccountFormState());
 
   final AccountRepository accountRepository;
   final AccountsBloc accountsBloc;
 
-  @override
   Stream<AccountFormState> mapEventToState(
     AccountFormEvent event,
   ) async* {

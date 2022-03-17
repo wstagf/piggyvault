@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 class AccountFormModel {
   AccountFormModel(
       {required this.id, this.name, this.currencyId, this.accountTypeId});

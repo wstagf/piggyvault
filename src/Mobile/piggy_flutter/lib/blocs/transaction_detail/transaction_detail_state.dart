@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 
 abstract class TransactionDetailState extends Equatable {
   const TransactionDetailState();
@@ -12,12 +11,12 @@ class InitialTransactionDetailState extends TransactionDetailState {
 
 class TransactionDeleting extends TransactionDetailState {
   @override
-  List<Object> get props => null;
+  List<Object> get props => [];
 }
 
 class TransactionDeleted extends TransactionDetailState {
   @override
-  List<Object> get props => null;
+  List<Object> get props => [];
 }
 
 class TransactionDetailError extends TransactionDetailState {

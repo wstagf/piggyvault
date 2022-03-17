@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
@@ -30,7 +29,7 @@ class CategoryListPage extends StatelessWidget {
         animationController: animationController,
       ),
       floatingActionButton: FloatingActionButton(
-          key: ValueKey<Color>(Theme.of(context).buttonColor),
+          key: ValueKey<Color>(Theme.of(context).colorScheme.secondary),
           tooltip: 'Add new category',
           backgroundColor: PiggyAppTheme.nearlyDarkBlue,
           child: Icon(Icons.add, color: Theme.of(context).primaryColor),

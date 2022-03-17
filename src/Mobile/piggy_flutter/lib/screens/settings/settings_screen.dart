@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 import 'package:app_settings/app_settings.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:piggy_flutter/blocs/settings/bloc.dart';
@@ -108,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen>
 
     listViews.add(
       BlocBuilder(
-        cubit: settingsBloc,
+        bloc: settingsBloc,
         builder: (context, dynamic state) {
           return TitleView(
             titleTxt: 'Default Currency',

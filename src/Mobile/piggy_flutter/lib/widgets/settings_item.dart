@@ -28,8 +28,7 @@ class SettingsIcon extends StatelessWidget {
     this.foregroundColor = CupertinoColors.white,
     this.backgroundColor = CupertinoColors.black,
     Key? key,
-  })  : assert(icon != null),
-        super(key: key);
+  }) : super(key: key);
 
   final Color backgroundColor;
   final Color foregroundColor;
@@ -61,8 +60,7 @@ class SettingsItem extends StatefulWidget {
     this.subtitle,
     this.onPress,
     Key? key,
-  })  : assert(label != null),
-        super(key: key);
+  }) : super(key: key);
 
   final String label;
   final Widget? icon;

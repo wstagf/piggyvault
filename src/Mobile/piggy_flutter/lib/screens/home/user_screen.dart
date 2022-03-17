@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:piggy_flutter/blocs/accounts/accounts.dart';
 import 'package:piggy_flutter/blocs/auth/auth.dart';
-import 'package:piggy_flutter/blocs/auth/auth_bloc.dart';
 import 'package:piggy_flutter/blocs/categories/categories.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/screens/category/category_list.dart';
@@ -384,7 +382,8 @@ class UserCard extends StatelessWidget {
         .padding(vertical: 10);
   }
 
-  Widget _buildUserStatsItem({required String value, required String text, TapCallback? onTap}) {
+  Widget _buildUserStatsItem(
+      {required String value, required String text, TapCallback? onTap}) {
     return GestureDetector(
         onTap: () async {
           await onTap!();
@@ -535,45 +534,46 @@ class _SettingsItemState extends State<SettingsItem> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsItem = ({required Widget child}) => Styled.widget(child: child)
-        .alignment(Alignment.center)
-        .borderRadius(all: 15)
-        .ripple()
-        .backgroundColor(Colors.white, animate: true)
-        .clipRRect(all: 25) // clip ripple
-        .borderRadius(all: 25, animate: true)
-        .elevation(
-          pressed ? 0 : 20,
-          borderRadius: BorderRadius.circular(25),
-          shadowColor: Color(0x30000000),
-        ) // shadow borderRadius
-        .constrained(height: 80)
-        .padding(vertical: 12) // margin
-        .gestures(
-          onTapChange: (tapStatus) => setState(() => pressed = tapStatus),
-          onTapDown: (details) => print('tapDown'),
-          onTap: () async {
-            if (widget.title == UIData.reports) {
-              Navigator.of(context).push<void>(
-                MaterialPageRoute<ReportsScreen>(
-                  builder: (BuildContext context) => ReportsScreen(
-                    animationController: widget.animationController,
-                  ),
-                ),
-              );
-            }
-            if (widget.title == UIData.settings) {
-              Navigator.of(context).push(
-                MaterialPageRoute<SettingsScreen>(
-                  builder: (BuildContext context) => SettingsScreen(
-                      animationController: widget.animationController),
-                ),
-              );
-            }
-          },
-        )
-        .scale(all: pressed ? 0.95 : 1.0, animate: true)
-        .animate(const Duration(milliseconds: 150), Curves.easeOut);
+    final settingsItem =
+        ({required Widget child}) => Styled.widget(child: child)
+            .alignment(Alignment.center)
+            .borderRadius(all: 15)
+            .ripple()
+            .backgroundColor(Colors.white, animate: true)
+            .clipRRect(all: 25) // clip ripple
+            .borderRadius(all: 25, animate: true)
+            .elevation(
+              pressed ? 0 : 20,
+              borderRadius: BorderRadius.circular(25),
+              shadowColor: Color(0x30000000),
+            ) // shadow borderRadius
+            .constrained(height: 80)
+            .padding(vertical: 12) // margin
+            .gestures(
+              onTapChange: (tapStatus) => setState(() => pressed = tapStatus),
+              onTapDown: (details) => print('tapDown'),
+              onTap: () async {
+                if (widget.title == UIData.reports) {
+                  Navigator.of(context).push<void>(
+                    MaterialPageRoute<ReportsScreen>(
+                      builder: (BuildContext context) => ReportsScreen(
+                        animationController: widget.animationController,
+                      ),
+                    ),
+                  );
+                }
+                if (widget.title == UIData.settings) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<SettingsScreen>(
+                      builder: (BuildContext context) => SettingsScreen(
+                          animationController: widget.animationController),
+                    ),
+                  );
+                }
+              },
+            )
+            .scale(all: pressed ? 0.95 : 1.0, animate: true)
+            .animate(const Duration(milliseconds: 150), Curves.easeOut);
 
     final Widget icon = Icon(widget.icon)
         .iconColor(Colors.white)

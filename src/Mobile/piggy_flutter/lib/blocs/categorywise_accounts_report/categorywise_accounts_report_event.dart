@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:piggy_flutter/models/models.dart';
 
 abstract class CategorywiseAccountsReportEvent extends Equatable {
@@ -7,8 +6,7 @@ abstract class CategorywiseAccountsReportEvent extends Equatable {
 }
 
 class CategorywiseAccountsReportLoad extends CategorywiseAccountsReportEvent {
-  const CategorywiseAccountsReportLoad({required this.input})
-      : assert(input != null);
+  const CategorywiseAccountsReportLoad({required this.input});
 
   final GetCategoryReportInput input;
 

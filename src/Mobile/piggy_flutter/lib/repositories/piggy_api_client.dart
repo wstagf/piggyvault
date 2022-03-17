@@ -1,15 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-import 'package:piggy_flutter/models/api_response.dart';
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
 import 'package:piggy_flutter/models/models.dart';
 import 'package:piggy_flutter/utils/uidata.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PiggyApiClient {
-  PiggyApiClient({required this.httpClient}) : assert(httpClient != null);
+  PiggyApiClient({required this.httpClient});
 
   static const String baseUrl = 'https://piggyvault.in';
   // static const baseUrl = 'http://10.0.2.2:21021';
@@ -272,10 +269,8 @@ class PiggyApiClient {
 
   // Transaction
   Future<void> deleteTransaction(String id) async {
-    final result = await deleteAsync<dynamic>(
+    await deleteAsync<dynamic>(
         '$baseUrl/api/services/app/transaction/DeleteTransaction?id=$id');
-
-    return result;
   }
 
   Future<void> createOrUpdateTransactionComment(
@@ -312,7 +307,7 @@ class PiggyApiClient {
     return null;
   }
 
-  Future<void> changeDefaultCurrency(String currencyCode) async {
+  Future<dynamic> changeDefaultCurrency(String currencyCode) async {
     final result = await postAsync<dynamic>(
         '$baseUrl/api/services/app/User/ChangeDefaultCurrency',
         {"currencyCode": currencyCode});
@@ -325,7 +320,7 @@ class PiggyApiClient {
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString(UIData.authToken);
     var tenantId = prefs.getInt(UIData.tenantId);
-    var response = await this.httpClient.get(resourcePath, headers: {
+    var response = await this.httpClient.get(Uri.parse(resourcePath), headers: {
       'Content-type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -334,7 +329,8 @@ class PiggyApiClient {
     return processResponse<T>(response);
   }
 
-  Future<ApiResponse<T?>> postAsync<T>(String resourcePath, dynamic data) async {
+  Future<ApiResponse<T?>> postAsync<T>(
+      String resourcePath, dynamic data) async {
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString(UIData.authToken);
     var tenantId = prefs.getInt(UIData.tenantId);
@@ -358,8 +354,8 @@ class PiggyApiClient {
     }
 
     // print(content);
-    var response =
-        await http.post(resourcePath, body: content, headers: headers);
+    var response = await http.post(Uri.parse(resourcePath),
+        body: content, headers: headers);
     return processResponse<T>(response);
   }
 
@@ -387,7 +383,7 @@ class PiggyApiClient {
     }
 
     // print(content);
-    var response = await http.delete(resourcePath, headers: headers);
+    var response = await http.delete(Uri.parse(resourcePath), headers: headers);
     return processResponse<T>(response);
   }
 

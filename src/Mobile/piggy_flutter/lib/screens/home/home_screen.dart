@@ -1,7 +1,7 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:piggy_flutter/blocs/transaction/transaction.dart';
 import 'package:piggy_flutter/blocs/transaction_detail/bloc.dart';
@@ -35,25 +35,25 @@ class TabIconData {
 
   static List<TabIconData> tabIconsList = <TabIconData>[
     TabIconData(
-      iconData: MaterialCommunityIcons.desktop_mac_dashboard,
+      iconData: CommunityMaterialIcons.desktop_mac_dashboard,
       index: 0,
       isSelected: true,
       animationController: null,
     ),
     TabIconData(
-      iconData: MaterialCommunityIcons.calendar_month_outline,
+      iconData: CommunityMaterialIcons.calendar_month_outline,
       index: 1,
       isSelected: false,
       animationController: null,
     ),
     TabIconData(
-      iconData: MaterialCommunityIcons.bank,
+      iconData: CommunityMaterialIcons.bank,
       index: 2,
       isSelected: false,
       animationController: null,
     ),
     TabIconData(
-      iconData: MaterialCommunityIcons.account,
+      iconData: CommunityMaterialIcons.account,
       index: 3,
       isSelected: false,
       animationController: null,

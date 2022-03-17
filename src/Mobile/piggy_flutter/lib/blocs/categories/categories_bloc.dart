@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:piggy_flutter/blocs/auth/auth.dart';
 
 import 'package:piggy_flutter/blocs/categories/categories.dart';
@@ -9,10 +8,8 @@ import 'package:piggy_flutter/repositories/category_repository.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   CategoriesBloc({required this.categoryRepository, required this.authBloc})
-      : assert(categoryRepository != null),
-        assert(authBloc != null),
-        super(CategoriesLoading()) {
-    authBlocSubscription = authBloc.listen((AuthState state) {
+      : super(CategoriesLoading()) {
+    authBlocSubscription = authBloc.stream.listen((AuthState state) {
       if (state is AuthAuthenticated) {
         add(CategoriesLoad());
       }
@@ -24,7 +21,6 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
   late StreamSubscription<AuthState> authBlocSubscription;
 
-  @override
   Stream<CategoriesState> mapEventToState(
     CategoriesEvent event,
   ) async* {
